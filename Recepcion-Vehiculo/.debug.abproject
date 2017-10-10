@@ -1,5 +1,7 @@
 {
   "CorePlugins": [
+    "com.phonegap.plugins.barcodescanner@6.0.5",
+    "com.telerik.LivePatch",
     "cordova-plugin-battery-status",
     "cordova-plugin-camera",
     "cordova-plugin-console",
@@ -19,6 +21,7 @@
     "cordova-plugin-splashscreen",
     "cordova-plugin-statusbar",
     "cordova-plugin-vibration",
-    "cordova-plugin-whitelist"
+    "cordova-plugin-whitelist",
+    "de.appplant.cordova.plugin.printer@0.7.2"
   ]
 }

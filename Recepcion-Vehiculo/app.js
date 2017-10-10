@@ -1,5 +1,42 @@
 'use strict';
 
+//====================================================================================================
+
+var wsPrincipal = "http://186.71.21.170:8089";
+
+//var wsInfoVehiculo = "http://186.71.21.170:8089/biss.sherloc/Services/SL/Sherloc/Sherloc.svc";
+
+var datos_Cliente, Device_identifier, datos_Vehiculo, urlService, observa, observa1;
+
+
+//var gl_URL_mayorista = "";
+//var gl_URL_concesionario = "";
+//var gl_USU_login = "";
+
+
+//if (localStorage.getItem("ls_url1") != undefined && localStorage.getItem("ls_url2") != undefined) {
+    //gl_URL_mayorista = localStorage.getItem("ls_url1").toLocaleString();
+    //gl_URL_concesionario = localStorage.getItem("ls_url2").toLocaleString();
+    //gl_USU_login = localStorage.getItem("ls_usulog").toLocaleString();
+//}
+//else {
+//    cerrarSistema();
+//}
+
+
+//localStorage.setItem("ls_empresa", empResp.nombre_empresa);
+//localStorage.setItem("ls_idempresa", empResp.empresa_erp);
+//localStorage.setItem("ls_url1", empResp.URL_mayorista);
+//localStorage.setItem("ls_url2", empResp.URL_concesionario);
+//localStorage.setItem("ls_usunom", accResp.Observaciones);
+//localStorage.setItem("ls_usulog", accResp.UserName);
+//localStorage.setItem("ls_usagencia", document.getElementById("cboAgenciasUS").value);
+//localStorage.setItem("ls_usagencianom", document.getElementById("cboAgenciasUS").options[document.getElementById("cboAgenciasUS").selectedIndex].innerHTML);
+//localStorage.getItem("ls_ussucursal").toLocaleString();
+
+
+//====================================================================================================
+
 (function() {
     var app = {
         data: {},
@@ -12,45 +49,30 @@
         },
         navigation: {
             viewModel: kendo.observable()
-        },
-        showMore: {
-            viewModel: kendo.observable()
         }
     };
 
     var bootstrap = function() {
         $(function() {
             app.mobileApp = new kendo.mobile.Application(document.body, {
-                transition: 'slide',
                 skin: 'nova',
-                initial: 'components/home/view.html'
+                initial: 'components/login/view.html'
             });
 
             kendo.bind($('.navigation-link-text'), app.navigation.viewModel);
         });
+
+        var viewModel11 = kendo.observable({ isVisible: false });
+        kendo.bind($("#vwLogout"), viewModel11);
+
+
     };
 
     $(document).ready(function() {
 
-        var navigationShowMoreView = $('#navigation-show-more-view').find('ul'),
-            allItems = $('#navigation-container-more').find('a'),
-            navigationShowMoreContent = '';
-
-            allItems.each(function(index) {
-                navigationShowMoreContent += '<li>' + allItems[index].outerHTML + '</li>';
-            });
-
-             navigationShowMoreView.html(navigationShowMoreContent);
-        kendo.bind($('#navigation-show-more-view'), app.showMore.viewModel);
-
         app.notification = $("#notify");
 
     });
-
-    app.listViewClick = function _listViewClick(item) {
-        var tabstrip = app.mobileApp.view().footer.find('.km-tabstrip').data('kendoMobileTabStrip');
-        tabstrip.clear();
-    };
 
     app.showNotification = function(message, time) {
         var autoHideAfter = time ? time : 3000;
@@ -63,6 +85,20 @@
             if (navigator && navigator.splashscreen) {
                 navigator.splashscreen.hide();
             }
+
+            var element = document.getElementById('appDrawer');
+            if (typeof(element) != 'undefined' && element !== null) {
+                if (window.navigator.msPointerEnabled) {
+                    $('#navigation-container').on('MSPointerDown', 'a', function(event) {
+                        app.keepActiveState($(this));
+                    });
+                } else {
+                    $('#navigation-container').on('touchstart', 'a', function(event) {
+                        app.keepActiveState($(this).closest('li'));
+                    });
+                }
+            }
+
             bootstrap();
         }, false);
     } else {
@@ -176,7 +212,6 @@
                 }
 
                 app.navigation.viewModel.set('strings', strings);
-                app.showMore.viewModel.set('strings', strings);
             }
         },
         loadCulture = function(code) {
@@ -208,5 +243,132 @@
 
 // START_CUSTOM_CODE_kendoUiMobileApp
 // Add custom code here. For more information about custom code, see http://docs.telerik.com/platform/screenbuilder/troubleshooting/how-to-keep-custom-code-changes
+
+//===========================================================================================================
+// RRP: Herramientas
+//===========================================================================================================
+function inspeccionar(obj) {
+    try {
+        var msg = '';
+        for (var property in obj) {
+            if (typeof obj[property] == 'function') {
+                var inicio = obj[property].toString().indexOf('function');
+                var fin = obj[property].toString().indexOf(')') + 1;
+                var propertyValue = obj[property].toString().substring(inicio, fin);
+                msg += (typeof obj[property]) + ' ' + property + ' : ' + propertyValue + ' ;\n';
+            } else if (typeof obj[property] == 'unknown') {
+                msg += 'unknown ' + property + ' : unknown ;\n';
+            } else {
+                msg += (typeof obj[property]) + ' ' + property + ' : ' + obj[property] + ' ;\n';
+            }
+        }
+        return msg;
+    } catch (e) {
+        alert(e);
+    }
+}
+
+
+/*--------------------------------------------------------------------
+Fecha: 05/09/2017
+Descripcion: Cierra la sesion actual y setea los controles
+Parametros: 
+--------------------------------------------------------------------*/
+function cerrarSistema() {
+
+
+
+
+ //   resetControls("");
+
+    localStorage.clear();
+
+    document.getElementById('usuFabrica').value = "";
+    document.getElementById('usuLogin').value = "";
+    document.getElementById('usuPass').value = "";
+
+    kendo.bind($("#vwEmpresa"), kendo.observable({ isVisible: true }));
+    kendo.bind($("#vwLogin2"), kendo.observable({ isVisible: false }));
+
+    kendo.bind($("#vwLogin"), kendo.observable({ isVisible: true }));
+    kendo.bind($("#vwLogout"), kendo.observable({ isVisible: false }));
+
+    kendo.mobile.application.navigate("components/login/view.html");
+}
+
+
+/*--------------------------------------------------------------------
+Fecha: 05/09/2017
+Descripcion: Abre vista
+Parametros: vista
+--------------------------------------------------------------------*/
+function abrirPagina(vista) {
+    kendo.mobile.application.navigate("components/" + vista + "/view.html");
+}
+
+
+/*--------------------------------------------------------------------
+Fecha: 18/08/2017
+Descripcion: Alerta con formato
+Parametros: titulo, contenido
+--------------------------------------------------------------------*/
+function myalert(titulo, contenido) {
+    $("<div></div>").kendoAlert({
+        title: titulo,
+        content: contenido
+    }).data("kendoAlert").open();
+}
+
+
+
+function myalert2(contenido, titulo) {
+    $("<div></div>").kendoAlert({
+        title: titulo,
+        content: contenido
+    }).data("kendoAlert").open();
+}
+
+
+function mens(Mensaje, Tipo) {
+    var valorIzq = (Mensaje.length) * 4;
+    notificationWidget.setOptions({
+        position: {
+            top: Math.floor($(window).width() / 2),
+            left: Math.floor($(window).width() / 2 - valorIzq),
+            bottom: 0,
+            right: 0
+        },
+        font: {
+            size: 14,
+            bold: true
+        }
+    });
+    notificationWidget.showText(Mensaje, Tipo);
+}
+
+/*--------------------------------------------------------------------
+Fecha: 11/09/2017
+Descripcion: Carga combo
+Parametros:
+    combo: control
+    arreglo: array con los items
+    seleccion: seleccion default
+--------------------------------------------------------------------*/
+function cargaCbo(combo, arreglo, seleccion) {
+    if (seleccion != "") {
+        $("#" + combo).kendoComboBox({
+            dataSource: arreglo,
+            value: seleccion
+        });
+    }
+    else {
+        $("#" + combo).kendoComboBox({
+            dataSource: arreglo
+        });
+    }
+}
+
+//===========================================================================================================
+
 
 // END_CUSTOM_CODE_kendoUiMobileApp

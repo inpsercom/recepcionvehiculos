@@ -5,6 +5,28 @@
     "qrCodeScan": "Scan"
   },
   "home": {
-    "title": "Home View"
+    "title": "Inicio"
+  },
+
+        "login": {
+    "title": "Acceso"
+  },
+
+
+    "lector_barras": {
+    "title": "Recepción Vehículo"
+  },
+
+
+  
+
+
+      "detalle_ot": {
+    "title": "Ordenes de Trabajo"
+  },
+
+
+      "logout": {
+    "title": "Cerrar"
   }
 }

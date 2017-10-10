@@ -1,0 +1,1175 @@
+<div data-role="view" data-title="text: strings.home.title" data-layout="main" data-model="app.lector_barras" data-show="app.lector_barras.onShow" data-after-show="app.lector_barras.afterShow" id="lector_barrasScreen" class="screen">
+    <header data-role="header">
+        <div data-role="navbar" class="header-text">
+            <span data-bind="text: strings.lector_barras.title"></span>
+            <a data-role="button" href="#appDrawer" data-rel="drawer" data-align="left" data-icon="drawer-button"></a>
+        </div>
+    </header>
+
+    <!-- START_CUSTOM_CODE_lector_barras -->
+    <!-- Add custom code here. For more information about custom code, see http://docs.telerik.com/platform/screenbuilder/troubleshooting/how-to-keep-custom-code-changes -->
+    <!--<button data-role="button" class="button" onclick="imprimeInfo();">IMPRIMIR</button>-->
+    <!--<i class="fa fa-square" aria-hidden="true"></i>-->
+
+
+   
+
+
+
+
+
+  
+
+        <table align="center" cellpadding="0" cellspacing="0" width="100">
+
+            <tr height="40">
+                <td colspan="3">
+
+                    <a class="w3-red button" style="font-size:16px" aria-label="Nuevo" onclick="vaciaCampos()">
+                        <i class="fa fa-file" aria-hidden="true"></i>&nbsp;&nbsp;Nuevo
+                    </a>
+
+                </td>
+
+            </tr>
+
+            <tr height="40">
+                <td colspan="2">
+                    <input class="w3-input w3-border textos2" id="infoPlacasVIN" name="infoPlacasVIN" type="text" placeholder="OT , Placa o VIN" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" value="">
+
+                </td>
+                <td align="center">
+                    <a class="w3-btn w3-red primary" aria-label="Buscar" onclick="buscaPlacaVIN(document.getElementById('infoPlacasVIN').value);">
+                        <i class="fa fa-search" aria-hidden="true"></i>Buscar
+                    </a>
+
+                </td>
+
+
+            </tr>
+
+
+            <tr height="40">
+                <td align="center">
+
+
+                    <a id="capturePhotoButton" class="w3-btn w3-red primary" aria-label="Buscar">
+                        <i class="fa fa-camera" aria-hidden="true"></i>&nbsp;Captura
+                    </a>
+
+
+
+                </td>
+
+                <td align="center">
+
+                    <a id="imageButton" onclick="getImage()" class="w3-btn w3-red primary" aria-label="Seleccionar">
+                        <i class="fa fa-photo" aria-hidden="true"></i>&nbsp;Selecci&oacute;n
+                    </a>
+
+                </td>
+                <td align="center">
+
+                    <a id="scanButton" class="w3-btn w3-red primary" aria-label="Lector">
+                        <i class="fa fa-barcode" aria-hidden="true"></i>&nbsp;Lector
+                    </a>
+
+
+
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="3">
+                    <div id="divInfOT" style="display:none; visibility:hidden">
+
+                        <table align="center">
+                            <tr>
+                                <td>
+                                    <label class="w3-text-red" style="font-weight:bold; font-size:13px">Orden de Trabajo:</label>
+                                </td>
+
+                                <td width="30%">
+                                    <input id="numOT" type="text" class="w3-input textos" readonly style="font-weight:bold">
+                                </td>
+                                <td width="5%">
+
+                                    <a id="imageButton" onclick="imprimeInfo()" class="w3-btn w3-red primary" aria-label="Imprimir">
+                                        <i class="fa fa-print" aria-hidden="true"></i>&nbsp;Imprimir
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+                </td>
+            </tr>
+
+        </table>
+
+
+
+        <div class="row -nopadding">
+            <div class="col -align-center">
+
+                <table align="center" cellpadding="0" cellspacing="0" width="100%">
+                    <tr>
+                        <td align="center">
+                            <img style="visibility:hidden; display:none; border:1px solid; margin: 5px auto; max-width: 50%; max-height: 50%;" id="smallImage" src="" />
+                            <div class="content" id="result"></div>
+                            <div id="divLoading" style="display:block">
+                            </div>
+
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+
+        <div class="row">
+
+
+
+            <!--<div id="vehiculo"> </div>-->
+            <!--<div id="example">-->
+            <div class="demo-section k-content">  </div>
+            <div id="vehiculo">
+
+                <br />
+
+                <div id="tabstrip">
+                    <ul>
+                        <li class="k-state-active">
+                            <i class="fa fa-car fa-lg " aria-hidden="true" title="Datos del Vehiculo"></i>
+                        </li>
+                        <li>
+                            <i class="fa fa-user fa-lg" aria-hidden="true" title="Datos del Cliente"></i>
+                        </li>
+                        <li>
+                            <i class="fa fa-dashboard fa-lg" aria-hidden="true" title="Historial"></i>
+                        </li>
+
+                        <li>
+                            <i class="fa fa-ambulance fa-lg" aria-hidden="true" title="Orden de Trabajo"></i>
+                        </li>
+
+                    </ul>
+                    <div>
+                        <div id="datosVEH">
+                            <div class="demo-section k-content wide">
+                                <div>
+
+                                    <p>
+
+
+                                        <b>DATOS VEH&#205;CULO</b>
+                                    </p>
+
+                                    <p>
+                                        <label class="w3-text-red">
+                                            <b>
+                                                Propietario
+                                            </b>
+                                        </label><input id="nombre_propietario" data-bind="value: nombre_propietario" class="w3-input textos" readonly />
+                                    </p>
+
+                                    <table style="width:100%;">
+                                        <tr>
+                                            <td width="65%">
+                                                <p>
+                                                    <label class="w3-text-red">
+                                                        <b>
+                                                            VIN
+                                                        </b>
+                                                    </label><input id="chasis" data-bind="value: chasis" class="w3-input textos" readonly />
+                                                </p>
+                                            </td>
+
+                                            <td>
+                                                <p>
+                                                    <label class="w3-text-red"><b>Placa</b></label>
+                                                    <input id="placa" class="w3-input textos" />
+                                                </p>
+                                            </td>
+
+                                        </tr>
+
+
+                                        <tr>
+                                            <td width="65%">
+                                                <p>
+                                                    <label class="w3-text-red">
+                                                        <b>
+                                                            Modelo
+                                                        </b>
+                                                    </label><input id="mi_modelo" data-bind="value: mi_modelo" class="w3-input textos" readonly />
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p>
+                                                    <label class="w3-text-red">
+                                                        <b>
+                                                            Marca
+                                                        </b>
+                                                    </label><input id="codigo_marca" data-bind="value: codigo_marca" class="w3-input textos" readonly />
+                                                </p>
+                                            </td>
+                                        </tr>
+
+
+                                        <tr>
+
+                                            <td width="65%">
+                                                <p>
+                                                    <label class="w3-text-red">
+                                                        <b>
+                                                            A&ntilde;o
+                                                        </b>
+                                                    </label><input id="anio_modelo" data-bind="value: anio_modelo" class="w3-input textos" readonly />
+                                                </p>
+
+                                            </td>
+                                            <td>
+                                                <p>
+                                                    <label class="w3-text-red">
+                                                        <b>
+                                                            Color
+                                                        </b>
+                                                    </label><input id="nombre_color" data-bind="value: nombre_color" class="w3-input textos" readonly />
+                                                </p>
+
+                                            </td>
+                                        </tr>
+
+                                    </table>
+
+
+
+
+                                    <p>
+                                        <label class="w3-text-red">
+                                            <b>
+                                                Secci&oacuten
+                                            </b>
+                                        </label>
+
+                                        <!--<input name="seccion" id="seccion" placeholder="Select Seccion..." class="w3-input w3-border textos">-->
+
+                                        <div id="divcboseccion"></div>
+
+
+
+
+
+                                    </p>
+                                    <p>
+                                        <label class="w3-text-red">
+                                            <b>
+                                                Tipo Trabajo
+                                            </b>
+                                        </label>
+
+                                        <!--<input id="tipo" placeholder="Select Tipo..." class="w3-input w3-border textos" />-->
+
+                                        <div id="divcboTrabajo"></div>
+
+
+
+                                    </p>
+                                    <p>
+                                        <label class="w3-text-red">
+                                            <b>
+                                                Tipo Mantenimiento
+                                            </b>
+                                        </label>
+
+                                        <!--<input id="mant" placeholder="Select mant..." class="w3-input w3-border textos" />-->
+
+                                        <div id="divcboMantenimiento"></div>
+
+
+                                        <input id="mantenimiento2_cbo" /><input id="mantenimiento2_hidden" type="text" value=" " />
+
+                                      
+
+                                    </p>
+                                    <p>
+                                        <label class="w3-text-red">
+                                            <b>
+                                                Km.
+                                            </b>
+                                        </label><input name="km" type="number" id="km" class="w3-input w3-border textos">
+
+                                    </p>
+                                    <!--<p>
+                                        <label class="w3-text-red">
+                                            <b>
+                                                Propietario
+                                            </b>
+                                        </label><input id="nombre_propietario" data-bind="value: nombre_propietario" class="w3-input w3-border textos" />
+                                    </p>-->
+                                    <p>
+                                        <label class="w3-text-red">
+                                            <b>
+                                                Chofer
+
+                                            </b>
+                                        </label><input name="chofer" type="text" id="chofer" class="w3-input w3-border textos">
+
+                                    </p>
+
+                                    <p>
+                                        <label class="w3-text-red"><b>Forma pago</b></label>
+                                        <!--<input id="fpago" placeholder="Select fpago..." class="w3-input w3-border textos" />-->
+
+                                        <div id="divcboPago"></div>
+
+                                    </p><p>
+                                        <label class="w3-text-red"><b>Tarjeta</b></label>
+                                        <input name="num_tarjeta" type="text" id="num_tarjeta" class="w3-input w3-border textos">
+
+                                        <!--<div id="divcboTcred"></div>-->
+
+                                    </p>
+                                    <p>
+                                        <label class="w3-text-red">
+                                            <b>
+                                                Reparaciones Solicitadas
+                                            </b>
+                                        </label>
+                                        <textarea name="reparaciones" id="reparaciones" class="w3-input w3-border textos" style="resize: none; width:95%"></textarea>
+                                    </p>
+                                    <p>
+                                        <label class="w3-text-red">
+                                            <b>
+                                                Observaciones
+                                            </b>
+                                        </label>
+                                        <textarea name="observaciones" id="observaciones" class="w3-input w3-border textos" style="resize: none; width:95%"></textarea>
+
+                                    
+
+                                   
+                                        <input id="pais" type="hidden" data-bind="value: pais" class="w3-input w3-border textos" />
+                                        <input id="ciudad_propietario" type="hidden" data-bind="value: ciudad_propietario" class="w3-input w3-border textos" />
+                                        <input id="calle_principal_propietario" type="hidden" data-bind="value: calle_principal_propietario" class="w3-input w3-border textos" />
+                                        <input id="numero_calle_propietario" type="hidden" data-bind="value: numero_calle_propietario" class="w3-input w3-border textos" />
+                                        <input id="calle_interseccion_propieta" type="hidden" data-bind="value: calle_interseccion_propieta" class="w3-input w3-border textos" />
+                                        <input id="telefono_propietario" type="hidden" data-bind="value: telefono_propietario" class="w3-input w3-border textos" />
+                                        <input id="tipo_dir_propietario" type="hidden" data-bind="value: tipo_dir_propietario" class="w3-input w3-border textos" />
+
+                                        <!--data hidden-->
+                                        <input id="codigo_modelo2" type="hidden">
+
+
+                                        <input id="anio_cotizacion" type="hidden">
+                                        <input id="anio_modelo" type="hidden">
+                                        <input id="area_fiscal" type="hidden">
+                                        <input id="codigo_sucursal" type="hidden">
+                                        <input id="codigo_taller" type="hidden">
+                                        <input id="enviado_distribuidor" type="hidden">
+                                        <input id="estado" type="hidden">
+                                        <input id="fecha_anulacion" type="hidden">
+                                        <input id="fecha_cancelacion" type="hidden">
+                                        <input id="fecha_creacion" type="hidden">
+                                        <input id="fecha_facturacion" type="hidden">
+                                        <input id="fecha_informe_tecnico" type="hidden">
+                                        <input id="fecha_inicio" type="hidden">
+                                        <input id="fecha_liquidacion" type="hidden">
+                                        <input id="fecha_modificacion" type="hidden">
+                                        <input id="fecha_ofrece" type="hidden">
+                                        <input id="fecha_real_entrega" type="hidden">
+                                        <input id="fecha_recepcion" type="hidden">
+                                        <input id="fecha_retiene_envio" type="hidden">
+                                        <input id="hora_anulacion" type="hidden">
+                                        <input id="hora_cancelacion" type="hidden">
+                                        <input id="hora_creacion" type="hidden">
+                                        <input id="hora_facturacion" type="hidden">
+                                        <input id="hora_informe_tecnico" type="hidden">
+                                        <input id="hora_inicio" type="hidden">
+                                        <input id="hora_liquidacion" type="hidden">
+                                        <input id="hora_modificacion" type="hidden">
+                                        <input id="hora_ofrece" type="hidden">
+                                        <input id="hora_real_entrega" type="hidden">
+                                        <input id="hora_recepcion" type="hidden">
+                                        <input id="hora_retiene_envio" type="hidden">
+                                        <input id="nivel_gasolina" type="hidden">
+                                        <input id="nombre_cliente" type="hidden">
+                                        <input id="numero_cono" type="hidden">
+                                        <input id="numero_cotizacion" type="hidden">
+                                        <input id="numero_motor" type="hidden">
+                                        <input id="numero_orden" type="hidden">
+                                        <input id="numero_poliza" type="hidden">
+                                        <input id="numero_siniestro" type="hidden">
+                                        <input id="observacion_cancelacion" type="hidden">
+                                        <input id="observacion_tecnica" type="hidden">
+                                        <input id="persona_clase" type="hidden">
+                                        <input id="persona_nombre_mecanico" type="hidden">
+                                        <input id="persona_numero_aseguradora" type="hidden">
+                                        <input id="persona_numero_control" type="hidden">
+                                        <input id="persona_numero_garantia" type="hidden">
+                                        <input id="persona_numero_mecanico" type="hidden">
+                                        <input id="persona_numero_recepta" type="hidden">
+                                        <input id="prog_cancelacion" type="hidden">
+                                        <input id="prog_creacion" type="hidden">
+                                        <input id="prog_modificacion" type="hidden">
+                                        <input id="referencia_srg" type="hidden">
+                                        <input id="retener_envio" type="hidden">
+                                        <input id="secuencia_control" type="hidden">
+                                        <input id="secuencia_cotizacion" type="hidden">
+                                        <input id="secuencia_fisica_aut" type="hidden">
+                                        <input id="secuencia_orden" type="hidden">
+                                        <input id="secuencia_recepta" type="hidden">
+                                        <input id="tiene_terceros" type="hidden">
+                                        <input id="tipo_mantenimiento" type="hidden">
+                                        <input id="tipo_registro_aseguradora" type="hidden">
+                                        <input id="usuario_anulacion" type="hidden">
+                                        <input id="usuario_cancelacion" type="hidden">
+                                        <input id="usuario_creacion" type="hidden">
+                                        <input id="usuario_informe_tecnico" type="hidden">
+                                        <input id="usuario_modificacion" type="hidden">
+                                        <input id="usuario_retiene_envio" type="hidden">
+                                        <input id="valor_autoriza_aseguradora" type="hidden">
+                                        <input id="valor_autoriza_cliente" type="hidden">
+                                        <input id="color_cono" type="hidden">
+                                        <input id="viene_de_cita" type="hidden">
+                                        <input id="requiere_taxi" type="hidden">
+                                        <input id="eleva_vehiculo" type="hidden">
+                                        <input id="persona_numero_comercial" type="hidden">
+                                        <input id="persona_nombre_comercial" type="hidden">
+                                        <input id="sobreturno" type="hidden">
+                                        <input id="cerro_costo_tintes" type="hidden">
+                                        <input id="cita_retorno" type="hidden">
+                                        <input id="presupuesto_previo" type="hidden">
+                                        <input id="ot_revisada" type="hidden">
+                                        <input id="explica_cliente" type="hidden">
+                                        <input id="transmitido_af" type="hidden">
+                                        <input id="fecha_cita" type="hidden">
+                                        <input id="hora_cita" type="hidden">
+                                        <input id="clave_af" type="hidden">
+                                        <input id="agencia_af" type="hidden">
+                                        <input id="asesor_af" type="hidden">
+
+                                        <input id="anio2" type="hidden">
+                                        <input id="secuencia_orden2" type="hidden">
+
+
+
+                                        <!--data hidden end-->
+
+                                   
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div>
+
+
+
+
+
+
+                        <p>
+
+                            <b>DATOS CLIENTE</b>
+                        </p>
+
+
+
+                        <table width="100%">
+                            <tr>
+                                <td>
+                                    <p>
+                                        <label class="w3-text-red"><b>Tipo Persona</b></label>
+                                        <!--<input id="tpers" placeholder="Select tpers..." class="w3-input w3-border textos" />-->
+
+
+                                        <div id="divcbotpers"></div>
+
+
+
+                                    </p>
+
+                                </td>
+
+                                <td>&nbsp;&nbsp;&nbsp;</td>
+                                <td>
+
+                                    <p>
+                                        <label class="w3-text-red"><b>Tipo ID</b></label>
+                                        <!--<input id="tid" placeholder="Select tid..." class="w3-input w3-border textos" />-->
+                                        <div id="divcbotid"></div>
+
+
+
+
+                                    </p>
+                                </td>
+
+
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <p>
+                                        <label class="w3-text-red"><b>ID</b></label>
+
+
+
+                                        <input name="numero_id_propietario" type="number" id="numero_id_propietario" onchange="ConsultarCliente(this.value)" class="w3-input w3-border textos3">
+
+
+
+                                    </p>
+
+                                </td>
+                                <td>&nbsp;&nbsp;&nbsp;</td>
+
+                                <td>
+                                    <p>
+                                        <label class="w3-text-red"><b>No.</b></label>
+                                        <input name="persona_numero" type="text" id="persona_numero" class="w3-input textos" readonly />
+
+
+                                    </p>
+
+                                </td>
+                            </tr>
+
+
+                        </table>
+
+
+                        <p>
+                            <label class="w3-text-red"><b>Nombre 1</b></label>
+                            <input name="persona_nombre" type="text" id="persona_nombre" class="w3-input w3-border textos">
+                        </p><p>
+                            <label class="w3-text-red"><b>Nombre 2</b></label>
+                            <input id="persona_nombre2" data-bind="value: persona_nombre2" class="w3-input w3-border textos" />
+
+
+                        </p><p>
+                            <label class="w3-text-red"><b>Apellido 1 / Raz&oacute;n Social</b></label>
+                            <input name="persona_apellido" type="text" id="persona_apellido" class="w3-input w3-border textos">
+                        </p><p>
+                            <label class="w3-text-red"><b>Apellido 2</b></label>
+                            <input name="persona_apellido2" type="text" id="persona_apellido2" class="w3-input w3-border textos">
+
+
+                        </p><p>
+                            <label class="w3-text-red"><b>Pa&iacutes</b></label>
+                            <!--<input name="cli_pais" type="text" id="cli_pais" class="w3-input w3-border textos">-->
+
+                            <div id="divcboPais"></div>
+
+
+
+
+
+                        </p><p>
+                            <label class="w3-text-red"><b>Ciudad</b></label>
+                            <!--<input name="cli_ciudad_propietario" class="w3-input w3-border textos" id="cli_ciudad_propietario" data-bind="value: nombre_propietario" />-->
+                            <div id="divcboCiudad"></div>
+
+                        </p><p>
+                            <label class="w3-text-red"><b>Direcci&oacuten</b></label>
+                            <!--<input id="direc" placeholder="Select direc..." class="w3-input w3-border textos" />-->
+
+                            <div id="divcbodirec"></div>
+
+
+                        </p><p>
+                            <label class="w3-text-red"><b>Calle</b></label>
+                            <input name="cli_calle_principal_propietario" type="text" id="cli_calle_principal_propietario" class="w3-input w3-border textos">
+                        </p><p>
+                            <label class="w3-text-red"><b>No. Calle</b></label>
+                            <input name="cli_numero_calle_propietario" type="text" id="cli_numero_calle_propietario" class="w3-input w3-border textos">
+
+
+                        </p><p>
+                            <label class="w3-text-red"><b>Intersecci&oacuten</b></label>
+                            <input name="cli_calle_interseccion_propieta" type="text" id="cli_calle_interseccion_propieta" class="w3-input w3-border textos">
+
+
+
+
+                        </p><p>
+                            <label class="w3-text-red"><b>Celular</b></label>
+                            <input name="telefono_celular" type="text" id="telefono_celular" class="w3-input w3-border textos">
+                        </p><p>
+                            <label class="w3-text-red"><b>Tel&eacute;fono</b></label>
+                            <input name="cli_telefono_propietario" type="text" id="cli_telefono_propietario" class="w3-input w3-border textos">
+
+
+                        </p><p>
+                            <label class="w3-text-red"><b>Email</b></label>
+                            <input name="mail" type="text" id="mail" size="55" class="w3-input w3-border textos">
+
+
+                        </p><p>
+                            <label class="w3-text-red"><b>Autorizado por</b></label>
+                            <input name="autorizadoPor" type="text" id="autorizadoPor" size="55" class="w3-input w3-border textos">
+
+
+                        </p>
+                        
+                       
+
+
+
+
+
+                    </div>
+                    <div>
+
+                        <p>
+
+                            <b>ESTADO DE MANTENIMIENTO</b>
+                        </p>
+
+                        <table id="tablaPrmEM" style="display:none" width="100%" border="0" cellspacing="15" cellpadding="0">
+                            <tr>
+                                <td width="55%">
+                                    <p>
+                                        <label class="w3-text-red"><b>&#218;ltimo ingreso taller</b></label>
+                                        <input name="fecEM" type="text" id="fecEM" class="w3-input w3-border textos" disabled>
+                                    </p>
+                                </td>
+
+                                <td>&nbsp;</td>
+                                <td width="30%">
+                                    <p>
+                                        <label class="w3-text-red"><b>Km.</b></label>
+                                        <input name="kmEM" type="text" id="kmEM" class="w3-input w3-border textos" disabled>
+                                    </p>
+                                </td>
+                                <td>&nbsp;</td>
+                            </tr>
+                        </table>
+
+
+                        <table id="tableEM" style="display:none">
+                            <tr>
+                                <td class="clase">
+
+                                    <input type="text" value="5,000" style="width: 90%; " align="center" disabled>
+                                </td>
+                                <td>
+                                    <input id="cl5000" type="text" style="width: 30%;" disabled>
+                                </td>
+                                <td>
+                                    <i id="cx5000v" class="fa fa-check" aria-hidden="true" style="color:green; display:none;width: 30%;"></i> <i id="cx5000x" class="fa fa-times" aria-hidden="true" style="color:red; display:none;width: 30%;"></i>
+
+
+
+                                </td>
+                                <td class="clase">
+
+
+                                    <b><input type="text" value="80,000" style="width: 90%;" align="right" disabled>
+                                </td>
+                                <td>
+                                    </b>
+                                    <input id="cl80000" type="text" style="width: 30%; " disabled>
+                                </td>
+                                <td>
+                                    <i id="cx80000v" class="fa fa-check" aria-hidden="true" style="color:green; display:none;"></i> <i id="cx80000x" class="fa fa-times" aria-hidden="true" style="color:red; display:none;"></i>
+
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="clase">
+
+
+                                    <b><input type="text" value="10,000" style="width: 90%;" align="rigth" disabled>
+                                </td>
+                                <td>
+                                    </b>
+                                    <input id="cl10000" type="text" style="width: 30%; " disabled>
+                                </td>
+                                <td>
+                                    <i id="cx10000v" class="fa fa-check" aria-hidden="true" style="color:green; display:none;width: 30%;"></i> <i id="cx10000x" class="fa fa-times" aria-hidden="true" style="color:red; display:none;width: 30%;"></i>
+
+
+                                </td>
+                                <td class="clase">
+
+
+                                    <input type="text" value="85,000" style="width: 90%;" align="middle" disabled>
+                                </td>
+                                <td>
+                                    <input id="cl85000" type="text" style="width: 30%; " disabled>
+                                </td>
+                                <td>
+                                    <i id="cx85000v" class="fa fa-check" aria-hidden="true" style="color:green; display:none;"></i> <i id="cx85000x" class="fa fa-times" aria-hidden="true" style="color:red; display:none;"></i>
+
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="clase">
+
+
+                                    <input type="text" value="15,000" style="width: 90%; " align="center" disabled>
+                                </td>
+                                <td>
+                                    <input id="cl15000" type="text" style="width: 30%; " disabled>
+                                </td>
+                                <td>
+                                    <i id="cx15000v" class="fa fa-check" aria-hidden="true" style="color:green; display:none;"></i> <i id="cx15000x" class="fa fa-times" aria-hidden="true" style="color:red; display:none;"></i>
+
+
+                                </td>
+                                <td class="clase">
+
+
+                                    <b><input type="text" value="90,000" style="width: 90%;" align="right" disabled>
+                                </td>
+                                <td>
+                                    </b>
+                                    <input id="cl90000" type="text" style="width: 30%; " disabled>
+                                </td>
+                                <td>
+                                    <i id="cx90000v" class="fa fa-check" aria-hidden="true" style="color:green; display:none;"></i> <i id="cx90000x" class="fa fa-times" aria-hidden="true" style="color:red; display:none;"></i>
+
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="clase">
+
+
+                                    <b><input type="text" value="20,000" style="width: 90%;" align="rigth" disabled>
+                                </td>
+                                <td>
+                                    </b>
+                                    <input id="cl20000" type="text" style="width: 30%; " disabled>
+                                </td>
+                                <td>
+                                    <i id="cx20000v" class="fa fa-check" aria-hidden="true" style="color:green; display:none;"></i> <i id="cx20000x" class="fa fa-times" aria-hidden="true" style="color:red; display:none;"></i>
+
+
+                                </td>
+                                <td class="clase">
+
+
+                                    <input type="text" value="95,000" style="width: 90%;" align="middle" disabled>
+                                </td>
+                                <td>
+                                    <input id="cl95000" type="text" style="width: 30%; " disabled>
+                                </td>
+                                <td>
+                                    <i id="cx95000v" class="fa fa-check" aria-hidden="true" style="color:green; display:none;"></i> <i id="cx95000x" class="fa fa-times" aria-hidden="true" style="color:red; display:none;"></i>
+
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="clase">
+
+
+                                    <input type="text" value="25,000" style="width: 90%; " align="center" disabled>
+                                </td>
+                                <td>
+                                    <input id="cl25000" type="text" style="width: 30%; " disabled>
+                                </td>
+                                <td>
+                                    <i id="cx25000v" class="fa fa-check" aria-hidden="true" style="color:green; display:none;"></i> <i id="cx25000x" class="fa fa-times" aria-hidden="true" style="color:red; display:none;"></i>
+
+
+                                </td>
+                                <td class="clase">
+
+
+                                    <b><input type="text" value="100,000" style="width: 90%;" align="right" disabled>
+                                </td>
+                                <td>
+                                    </b>
+                                    <input id="cl100000" type="text" style="width: 30%; " disabled>
+                                </td>
+                                <td>
+                                    <i id="cx100000v" class="fa fa-check" aria-hidden="true" style="color:green; display:none;"></i> <i id="cx100000x" class="fa fa-times" aria-hidden="true" style="color:red; display:none;"></i>
+
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="clase">
+
+
+                                    <b><input type="text" value="30,000" style="width: 90%;" align="rigth" disabled>
+                                </td>
+                                <td>
+                                    </b>
+                                    <input id="cl30000" type="text" style="width: 30%; " disabled>
+                                </td>
+                                <td>
+                                    <i id="cx30000v" class="fa fa-check" aria-hidden="true" style="color:green; display:none;"></i> <i id="cx30000x" class="fa fa-times" aria-hidden="true" style="color:red; display:none;"></i>
+
+
+                                </td>
+                                <td class="clase">
+
+
+                                    <input type="text" value="105,000" style="width: 90%;" align="middle" disabled>
+                                </td>
+                                <td>
+                                    <input id="cl105000" type="text" style="width: 30%; " disabled>
+                                </td>
+                                <td>
+                                    <i id="cx105000v" class="fa fa-check" aria-hidden="true" style="color:green; display:none;"></i> <i id="cx105000x" class="fa fa-times" aria-hidden="true" style="color:red; display:none;"></i>
+
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="clase">
+
+
+                                    <input type="text" value="35,000" style="width: 90%; " align="center" disabled>
+                                </td>
+                                <td>
+                                    <input id="cl35000" type="text" style="width: 30%; " disabled>
+                                </td>
+                                <td>
+                                    <i id="cx35000v" class="fa fa-check" aria-hidden="true" style="color:green; display:none;"></i> <i id="cx35000x" class="fa fa-times" aria-hidden="true" style="color:red; display:none;"></i>
+
+
+                                </td>
+                                <td class="clase">
+
+
+                                    <b><input type="text" value="110,000" style="width: 90%;" align="right" disabled>
+                                </td>
+                                <td>
+                                    </b>
+                                    <input id="cl110000" type="text" style="width: 30%; " disabled>
+                                </td>
+                                <td>
+                                    <i id="cx110000v" class="fa fa-check" aria-hidden="true" style="color:green; display:none;"></i> <i id="cx110000x" class="fa fa-times" aria-hidden="true" style="color:red; display:none;"></i>
+
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="clase">
+
+
+                                    <b><input type="text" value="40,000" style="width: 90%;" align="rigth" disabled>
+                                </td>
+                                <td>
+                                    </b>
+                                    <input id="cl40000" type="text" style="width: 30%; " disabled>
+                                </td>
+                                <td>
+                                    <i id="cx40000v" class="fa fa-check" aria-hidden="true" style="color:green; display:none;"></i> <i id="cx40000x" class="fa fa-times" aria-hidden="true" style="color:red; display:none;"></i>
+
+
+                                </td>
+                                <td class="clase">
+
+
+                                    <input type="text" value="115,000" style="width: 90%;" align="middle" disabled>
+                                </td>
+                                <td>
+                                    <input id="cl115000" type="text" style="width: 30%; " disabled>
+                                </td>
+                                <td>
+                                    <i id="cx115000v" class="fa fa-check" aria-hidden="true" style="color:green; display:none;"></i> <i id="cx115000x" class="fa fa-times" aria-hidden="true" style="color:red; display:none;"></i>
+
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="clase">
+
+
+                                    <input type="text" value="45,000" style="width: 90%; " align="center" disabled>
+                                </td>
+                                <td>
+                                    <input id="cl45000" type="text" style="width: 30%; " disabled>
+                                </td>
+                                <td>
+                                    <i id="cx45000v" class="fa fa-check" aria-hidden="true" style="color:green; display:none;"></i> <i id="cx45000x" class="fa fa-times" aria-hidden="true" style="color:red; display:none;"></i>
+
+
+                                </td>
+                                <td class="clase">
+
+
+                                    <b><input type="text" value="120,000" style="width: 90%;" align="right" disabled>
+                                </td>
+                                <td>
+                                    </b>
+                                    <input id="cl120000" type="text" style="width: 30%; " disabled>
+                                </td>
+                                <td>
+                                    <i id="cx120000v" class="fa fa-check" aria-hidden="true" style="color:green; display:none;"></i> <i id="cx120000x" class="fa fa-times" aria-hidden="true" style="color:red; display:none;"></i>
+
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="clase">
+
+
+                                    <b><input type="text" value="50,000" style="width: 90%;" align="rigth" disabled>
+                                </td>
+                                <td>
+                                    </b>
+                                    <input id="cl50000" type="text" style="width: 30%; " disabled>
+                                </td>
+                                <td>
+                                    <i id="cx50000v" class="fa fa-check" aria-hidden="true" style="color:green; display:none;"></i> <i id="cx50000x" class="fa fa-times" aria-hidden="true" style="color:red; display:none;"></i>
+
+
+                                </td>
+                                <td class="clase">
+
+
+                                    <input type="text" value="125,000" style="width: 90%;" align="middle" disabled>
+                                </td>
+                                <td>
+                                    <input id="cl125000" type="text" style="width: 30%; " disabled>
+                                </td>
+                                <td>
+                                    <i id="cx125000v" class="fa fa-check" aria-hidden="true" style="color:green; display:none;"></i> <i id="cx125000x" class="fa fa-times" aria-hidden="true" style="color:red; display:none;"></i>
+
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="clase">
+
+
+                                    <input type="text" value="55,000" style="width: 90%; " align="center" disabled>
+                                </td>
+                                <td>
+                                    <input id="cl55000" type="text" style="width: 30%; " disabled>
+                                </td>
+                                <td>
+                                    <i id="cx55000v" class="fa fa-check" aria-hidden="true" style="color:green; display:none;"></i> <i id="cx55000x" class="fa fa-times" aria-hidden="true" style="color:red; display:none;"></i>
+
+
+                                </td>
+                                <td class="clase">
+
+
+                                    <b><input type="text" value="130,000" style="width: 90%;" align="right" disabled>
+                                </td>
+                                <td>
+                                    </b>
+                                    <input id="cl130000" type="text" style="width: 30%; " disabled>
+                                </td>
+                                <td>
+                                    <i id="cx130000v" class="fa fa-check" aria-hidden="true" style="color:green; display:none;"></i> <i id="cx130000x" class="fa fa-times" aria-hidden="true" style="color:red; display:none;"></i>
+
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="clase">
+
+
+                                    <b><input type="text" value="60,000" style="width: 90%;" align="rigth" disabled>
+                                </td>
+                                <td>
+                                    </b>
+                                    <input id="cl60000" type="text" style="width: 30%; " disabled>
+                                </td>
+                                <td>
+                                    <i id="cx60000v" class="fa fa-check" aria-hidden="true" style="color:green; display:none;"></i> <i id="cx60000x" class="fa fa-times" aria-hidden="true" style="color:red; display:none;"></i>
+
+
+                                </td>
+                                <td class="clase">
+
+
+                                    <input type="text" value="135,000" style="width: 90%;" align="middle" disabled>
+                                </td>
+                                <td>
+                                    <input id="cl135000" type="text" style="width: 30%; " disabled>
+                                </td>
+                                <td>
+                                    <i id="cx135000v" class="fa fa-check" aria-hidden="true" style="color:green; display:none;"></i> <i id="cx135000x" class="fa fa-times" aria-hidden="true" style="color:red; display:none;"></i>
+
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="clase">
+
+
+                                    <input type="text" value="65,000" style="width: 90%; " align="center" disabled>
+                                </td>
+                                <td>
+                                    <input id="cl65000" type="text" style="width: 30%; " disabled>
+                                </td>
+                                <td>
+                                    <i id="cx65000v" class="fa fa-check" aria-hidden="true" style="color:green; display:none;"></i> <i id="cx65000x" class="fa fa-times" aria-hidden="true" style="color:red; display:none;"></i>
+
+
+                                </td>
+                                <td class="clase">
+
+
+                                    <b><input type="text" value="140,000" style="width: 90%;" align="right" disabled>
+                                </td>
+                                <td>
+                                    </b>
+                                    <input id="cl140000" type="text" style="width: 30%; " disabled>
+                                </td>
+                                <td>
+                                    <i id="cx140000v" class="fa fa-check" aria-hidden="true" style="color:green; display:none;"></i> <i id="cx140000x" class="fa fa-times" aria-hidden="true" style="color:red; display:none;"></i>
+
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="clase">
+
+
+                                    <b><input type="text" value="70,000" style="width: 90%;" align="rigth" disabled>
+                                </td>
+                                <td>
+                                    </b>
+                                    <input id="cl70000" type="text" style="width: 30%; " disabled>
+                                </td>
+                                <td>
+                                    <i id="cx70000v" class="fa fa-check" aria-hidden="true" style="color:green; display:none;"></i> <i id="cx70000x" class="fa fa-times" aria-hidden="true" style="color:red; display:none;"></i>
+
+
+                                </td>
+                                <td class="clase">
+
+
+                                    <input type="text" value="145,000" style="width: 90%;" align="middle" disabled>
+                                </td>
+                                <td>
+                                    <input id="cl145000" type="text" style="width: 30%; " disabled>
+                                </td>
+                                <td>
+                                    <i id="cx145000v" class="fa fa-check" aria-hidden="true" style="color:green; display:none;"></i> <i id="cx145000x" class="fa fa-times" aria-hidden="true" style="color:red; display:none;"></i>
+
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="clase">
+
+
+                                    <input type="text" value="75,000" style="width: 90%; " align="center" disabled>
+                                </td>
+                                <td>
+                                    <input id="cl75000" type="text" style="width: 30%; " disabled>
+                                </td>
+                                <td>
+                                    <i id="cx75000v" class="fa fa-check" aria-hidden="true" style="color:green; display:none;"></i> <i id="cx75000x" class="fa fa-times" aria-hidden="true" style="color:red; display:none;"></i>
+
+
+                                </td>
+                                <td class="clase">
+
+
+                                    <b><input type="text" value="150,000" style="width: 90%;" align="right" disabled>
+                                </td>
+                                <td>
+                                    </b>
+                                    <input id="cl150000" type="text" style="width: 30%; " disabled>
+                                </td>
+                                <td>
+                                    <i id="cx150000v" class="fa fa-check" aria-hidden="true" style="color:green; display:none;"></i> <i id="cx150000x" class="fa fa-times" aria-hidden="true" style="color:red; display:none;"></i>
+
+
+                                </td>
+                            </tr>
+                        </table>
+
+
+
+                    </div>
+
+                    <div>
+
+                        <p>
+
+                            <b>HISTORIAL ORDENES DE TRABAJO</b>
+                        </p>
+
+                        <table width="80%" border="0" cellspacing="0" cellpadding="0" id="tablaOT" style="display: none">
+                            <tr>
+                                <td>
+                                    <p>
+                                        <label class="w3-text-red"><b>Inicio</b></label>
+                                    </p>
+                                    <p>
+                                        <input id="dpInicio" value="01-01-1900" size="12" class="w3-input w3-border calend" />
+                                    </p>
+                                </td>
+                                <td>
+                                    <p>
+                                        <label class="w3-text-red"><b>Fin</b></label>
+                                    </p>
+                                    <p>
+                                        <input id="dpFin" value="01-09-2017" size="12" class="w3-input w3-border calend" />
+
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" align="center">
+                                    <p>
+                                        <a class="w3-btn w3-red k-button primary" aria-label="Buscar" onclick="ConsultarOT(document.getElementById('chasis').value, document.getElementById('dpInicio').value, document.getElementById('dpFin').value);">
+                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                            &nbsp;
+                                        </a>
+
+
+                                    </p>
+
+
+                                </td>
+                            </tr>
+                        </table>
+
+
+
+                        <div id="datosOT" style="font-size:11px; display:none"></div>
+
+
+
+
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <table width="100%">
+                    <tr>
+                        <td align="center" height="50px">
+
+                            <div id="btnGuardaInfo"></div>
+
+                            <!--<button onclick="registrarOT();" class="w3-btn w3-red">GENERAR OT</button>-->
+                        
+                            
+
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+  
+    <!-- END_CUSTOM_CODE_lector_barras -->
+</div>

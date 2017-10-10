@@ -145,6 +145,10 @@
     padding-right: 0;
 }
 
+#kendoUiMobileApp .km-list .km-label-above select {
+    left: 0;
+}
+
 #kendoUiMobileApp form .form-content li p {
     margin: 0;
     padding: 0;

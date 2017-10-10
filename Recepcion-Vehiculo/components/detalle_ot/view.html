@@ -1,0 +1,63 @@
+<div data-role="view" data-title="text: strings.home.title" data-layout="main" data-model="app.detalle_ot" data-show="app.detalle_ot.onShow" data-after-show="app.detalle_ot.afterShow" id="detalle_otScreen" class="screen">
+    <header data-role="header">
+        <div data-role="navbar" class="header-text">
+
+            <span data-bind="text: strings.detalle_ot.title"></span>
+            <a data-role="button" href="#appDrawer" data-rel="drawer" data-align="left" data-icon="drawer-button"></a>
+
+        </div>
+    </header>
+
+    <!-- START_CUSTOM_CODE_home -->
+    <!-- Add custom code here. For more information about custom code, see http://docs.telerik.com/platform/screenbuilder/troubleshooting/how-to-keep-custom-code-changes -->
+
+    <div class="container">
+        <div class="item">
+
+            
+
+
+           
+
+      <table align="center">
+          
+          <tr>
+              <td align="center">
+                  <i class="fa fa-ambulance fa-2x" aria-hidden="true"></i>
+                  <br />
+              </td>
+          </tr>
+
+          <tr>
+              <td align="center">
+                  <div id="nomTalleres"></div>
+                  <br />
+              </td>
+          </tr>
+
+
+          <tr>
+              <td>
+                  <div id="gridDetalleOT" style="font-size:11px"></div>
+                  <br />
+              </td>
+          </tr>
+          
+          <tr>
+              <td align="center">
+                  <div id="otObs"></div>
+                  <br />
+              </td>
+          </tr>
+
+          
+          
+          <tr>
+          <td align="center"><button onclick="volverOT()" class="w3-btn w3-red">VOLVER</button>
+          </td>
+          </tr>
+            </table>     
+        </div>
+    </div>
+    <!-- END_CUSTOM_CODE_home -->
+</div>
